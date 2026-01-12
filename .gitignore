@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+*.log
+
+# Poetry / venv
+.venv/
+*.egg-info/
+
+# Django
+db.sqlite3
+media/
+staticfiles/
+
+# IDE
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env
+.env
