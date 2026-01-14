@@ -4,7 +4,6 @@ from .models import Document
 from .tasks import notify_user_document_moderated
 
 
-
 @admin.register(Document)
 class DocumentAdmin(admin.ModelAdmin):
     list_display = ('id', 'user', 'status', 'created_at', 'moderated_at')
@@ -31,4 +30,3 @@ class DocumentAdmin(admin.ModelAdmin):
             notify_user_document_moderated.delay(document.id)
 
     reject_documents.short_description = 'Отклонить выбранные документы'
-

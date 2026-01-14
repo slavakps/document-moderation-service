@@ -13,4 +13,3 @@ class DocumentUploadView(generics.CreateAPIView):
     def perform_create(self, serializer):
         document = serializer.save(user=self.request.user)
         notify_admin_new_document.delay(document.id)
-
