@@ -2,6 +2,7 @@ from rest_framework import generics, permissions
 
 from .models import Document
 from .serializers import DocumentSerializer
+from .tasks import notify_admin_new_document
 
 
 class DocumentUploadView(generics.CreateAPIView):
@@ -10,4 +11,6 @@ class DocumentUploadView(generics.CreateAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+        document = serializer.save(user=self.request.user)
+        notify_admin_new_document.delay(document.id)
+
