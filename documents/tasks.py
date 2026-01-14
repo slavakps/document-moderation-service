@@ -19,3 +19,26 @@ def notify_admin_new_document(document_id: int) -> None:
         recipient_list=[settings.DEFAULT_FROM_EMAIL],
         fail_silently=False,
     )
+
+
+@shared_task
+def notify_user_document_moderated(document_id: int) -> None:
+    document = Document.objects.select_related('user').get(pk=document_id)
+
+    if document.status == Document.Status.APPROVED:
+        status_text = 'подтверждён'
+    elif document.status == Document.Status.REJECTED:
+        status_text = 'отклонён'
+    else:
+        return
+
+    subject = f'Ваш документ #{document.id} {status_text}'
+    message = f'Документ #{document.id} был {status_text}.'
+
+    send_mail(
+        subject=subject,
+        message=message,
+        from_email=settings.DEFAULT_FROM_EMAIL,
+        recipient_list=[document.user.email],
+        fail_silently=False,
+    )
