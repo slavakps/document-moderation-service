@@ -10,7 +10,8 @@ def notify_admin_new_document(document_id: int) -> None:
     document = Document.objects.select_related('user').get(pk=document_id)
 
     subject = f'Новый документ от {document.user.username}'
-    message = f'Пользователь {document.user.username} загрузил документ #{document.id}. Статус: {document.status}.'
+    message = (f'Пользователь {document.user.username} загрузил документ #{document.id}. '
+               f'Статус: {document.status}.')
 
     send_mail(
         subject=subject,

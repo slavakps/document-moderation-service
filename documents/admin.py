@@ -5,7 +5,6 @@ from .models import Document
 from .tasks import notify_user_document_moderated
 
 
-
 @admin.register(Document)
 class DocumentAdmin(admin.ModelAdmin):
     list_display = ('id', 'user', 'status', 'file_link', 'created_at', 'moderated_at')
